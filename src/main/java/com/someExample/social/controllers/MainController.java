@@ -31,9 +31,16 @@ public class MainController {
 
 
     @GetMapping("/main")
-    public String mainPage(Map<String, Object> model){
+    public String mainPage(@RequestParam(required = false) String filter, Map<String, Object> model){
 
-        Iterable<Post> allPosts = postsRepo.findAll();
+        Iterable<Post> allPosts;
+
+        if(filter!=null && !filter.isEmpty()){
+            allPosts = postsRepo.findByPostTag(filter);
+        }
+        else {
+            allPosts = postsRepo.findAll();
+        }
 
         model.put("posts", allPosts);
         return "main";
@@ -54,20 +61,20 @@ public class MainController {
 
 
 
-    @PostMapping("/filter")
-    public String filter(Map<String, Object> model, @RequestParam String filter){
-
-        Iterable<Post> filtredPosts;
-
-        if(filter!=null && !filter.isEmpty()){
-            filtredPosts = postsRepo.findByPostTag(filter);
-        }
-        else {
-            filtredPosts = postsRepo.findAll();
-        }
-
-        model.put("posts", filtredPosts);
-        return "main";
-    }
+//    @PostMapping("/filter")
+//    public String filter(Map<String, Object> model, @RequestParam String filter){
+//
+//        Iterable<Post> filtredPosts;
+//
+//        if(filter!=null && !filter.isEmpty()){
+//            filtredPosts = postsRepo.findByPostTag(filter);
+//        }
+//        else {
+//            filtredPosts = postsRepo.findAll();
+//        }
+//
+//        model.put("posts", filtredPosts);
+//        return "main";
+//    }
 
 }

@@ -4,12 +4,15 @@
 
 <body>
 
+        <span><a href="/user"> Users List </a></span>
 
-        <form action="/logout" method="post">
-            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
-            <input type="submit" value="Sign Out"/>
-        </form>
 
+        <div>
+            <form action="/logout" method="post">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+                <input type="submit" value="Sign Out"/>
+            </form>
+        </div>
 
         <div>
             <form method="post">
@@ -24,9 +27,8 @@
 <div>POSTS</div>
 
         <div>
-            <form method="post" action="/filter">
+            <form method="get" action="/main">
                 <input type="text" name="filter">
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
                 <button>FILTER POSTS</button>
             </form>
         </div>
