@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html>
+
+
+<body>
+
+
+        <form action="/logout" method="post">
+            <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+            <input type="submit" value="Sign Out"/>
+        </form>
+
+
+        <div>
+            <form method="post">
+                <input type="text" name="postText" placeholder="Write some post">
+                <input type="text" name="postTag" placeholder="Post tag">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+                <button type="submit">POST</button>
+            </form>
+        </div>
+
+
+<div>POSTS</div>
+
+        <div>
+            <form method="post" action="/filter">
+                <input type="text" name="filter">
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+                <button>FILTER POSTS</button>
+            </form>
+        </div>
+
+
+        {{#posts}}
+        <div>
+
+            <b>{{id}}</b>
+            <b>{{postText}}</b>
+            <i>{{postTag}}</i>
+
+        </div>
+        {{/posts}}
+
+</body>
+
+</html>
