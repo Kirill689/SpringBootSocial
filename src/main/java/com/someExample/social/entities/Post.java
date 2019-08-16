@@ -1,10 +1,7 @@
 package com.someExample.social.entities;
 
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Post {
@@ -16,6 +13,8 @@ public class Post {
     private String postText;
     private String postTag;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     private User author;
 
 
@@ -23,12 +22,16 @@ public class Post {
 
     }
 
-    public Post(Integer id, String postText, String postTag) {
-        this.id = id;
+    public Post(String postText, String postTag, User author) {
         this.postText = postText;
         this.postTag = postTag;
+        this.author = author;
     }
 
+
+    public String getAuthorName(){
+        return author !=null ? author.getUsername() : "mr.anonymous";
+    }
 
     public User getAuthor() {
         return author;

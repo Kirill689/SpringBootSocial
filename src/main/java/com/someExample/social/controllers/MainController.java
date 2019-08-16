@@ -21,10 +21,13 @@ public class MainController {
         this.postsRepo = postsRepo;
     }
 
+
+
     @GetMapping("/")
-    public String greeting(Map<String, Object> model) {
+    public String welcome(Map<String, Object> model) {
         return "index";
     }
+
 
 
     @GetMapping("/main")
@@ -37,15 +40,19 @@ public class MainController {
     }
 
 
-    @PostMapping("/main")
-    public String makeSomePost(Map<String, Object> model, Post post,@AuthenticationPrincipal User user){
 
+    @PostMapping("/main")
+    public String makeSomePost(Map<String, Object> model, @RequestParam String postText, @RequestParam String postTag, @AuthenticationPrincipal User user){
+
+        Post post = new Post(postText, postTag, user);
         postsRepo.save(post);
 
         Iterable<Post> allPosts = postsRepo.findAll();
         model.put("posts", allPosts);
         return "main";
     }
+
+
 
     @PostMapping("/filter")
     public String filter(Map<String, Object> model, @RequestParam String filter){
