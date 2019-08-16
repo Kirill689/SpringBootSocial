@@ -1,9 +1,14 @@
 package com.someExample.social.enums;
 
-public enum Roles {
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Roles implements GrantedAuthority {
 
     USER,
-    ADMIN,
-    OWNER
+    ADMIN;
 
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }

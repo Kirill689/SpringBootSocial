@@ -2,7 +2,9 @@ package com.someExample.social.controllers;
 
 
 import com.someExample.social.entities.Post;
+import com.someExample.social.entities.User;
 import com.someExample.social.reps.PostsRepo;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,7 +38,7 @@ public class MainController {
 
 
     @PostMapping("/main")
-    public String makeSomePost(Map<String, Object> model, Post post){
+    public String makeSomePost(Map<String, Object> model, Post post,@AuthenticationPrincipal User user){
 
         postsRepo.save(post);
 

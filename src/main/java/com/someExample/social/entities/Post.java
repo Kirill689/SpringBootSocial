@@ -14,10 +14,9 @@ public class Post {
     private Integer id;
 
     private String postText;
-
     private String postTag;
 
-
+    private User author;
 
 
     public Post (){
@@ -31,7 +30,13 @@ public class Post {
     }
 
 
+    public User getAuthor() {
+        return author;
+    }
 
+    public void setAuthor(User author) {
+        this.author = author;
+    }
 
     public Integer getId() {
         return id;
