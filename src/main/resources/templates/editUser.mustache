@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html>
+
+
+<body>
+
+<form action="/user" method="post">
+
+    <input type="text" value="{{#userToEdit}}{{id}}{{/userToEdit}}" name="id">
+    <input type="text" value="{{#userToEdit}}{{username}}{{/userToEdit}}" name="username">
+
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <button type="submit">Edit</button>
+
+</form>
+
+</body>
+
+</html>
