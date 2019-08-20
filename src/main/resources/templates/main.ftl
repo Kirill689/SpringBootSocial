@@ -1,24 +1,20 @@
-<!DOCTYPE HTML>
-<html>
+<#import "components/common.ftl" as e>
+<#import "components/login.ftl" as l>
 
-
-<body>
+<@e.page>
 
         <span><a href="/user"> Users List </a></span>
 
 
         <div>
-            <form action="/logout" method="post">
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
-                <input type="submit" value="Sign Out"/>
-            </form>
+            <@l.logout />
         </div>
 
         <div>
             <form method="post">
                 <input type="text" name="postText" placeholder="Write some post">
                 <input type="text" name="postTag" placeholder="Post tag">
-                <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                 <button type="submit">POST</button>
             </form>
         </div>
@@ -33,18 +29,17 @@
             </form>
         </div>
 
-
-        {{#posts}}
+        <#list posts as post>
         <div>
 
-            <b>{{id}}</b>
-            <b>{{postText}}</b>
-            <i>{{postTag}}</i>
-            <strong>{{authorName}}</strong>
+            <b>${post.id}</b>
+            <b>${post.postText}</b>
+            <i>${post.postTag}</i>
+            <strong>${post.authorName}</strong>
 
         </div>
-        {{/posts}}
+        <#else>
+            No Posts
+        </#list>
 
-</body>
-
-</html>
+</@e.page>
