@@ -3,11 +3,10 @@
 
 <@e.page>
 
-        <span><a href="/user"> Users List </a></span>
-
 
         <div>
             <@l.logout />
+            <span><a href="/user"> Users List </a></span>
         </div>
 
         <div>

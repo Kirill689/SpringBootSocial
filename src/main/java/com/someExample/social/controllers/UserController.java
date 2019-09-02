@@ -1,8 +1,9 @@
 package com.someExample.social.controllers;
 
 import com.someExample.social.entities.User;
-import com.someExample.social.enums.Roles;
+import com.someExample.social.enums.Role;
 import com.someExample.social.reps.UserRepo;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -13,10 +14,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("user")
 @PreAuthorize("hasAuthority('ADMIN')")
 public class UserController {
 
+    @Autowired
     private UserRepo userRepo;
 
     public UserController(UserRepo userRepo) {
@@ -37,7 +39,7 @@ public class UserController {
     public String editUser(@PathVariable User user, Map<String, Object> model){
 
         model.put("userToEdit", user);
-        model.put("userRoles", Roles.values());
+        model.put("userRoles", Role.values());
         return "editUser";
     }
 
@@ -50,13 +52,13 @@ public class UserController {
 
         user.setUsername(username);
 
-        Set<String> roles = Arrays.stream(Roles.values()).map(Roles::name).collect(Collectors.toSet());
+        Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
 
         user.getRoles().clear();
 
         for (String key : form.keySet()){
             if (roles.contains(key)){
-                user.getRoles().add(Roles.valueOf(key));
+                user.getRoles().add(Role.valueOf(key));
             }
         }
 

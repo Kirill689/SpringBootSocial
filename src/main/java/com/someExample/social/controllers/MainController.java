@@ -60,21 +60,4 @@ public class MainController {
     }
 
 
-
-//    @PostMapping("/filter")
-//    public String filter(Map<String, Object> model, @RequestParam String filter){
-//
-//        Iterable<Post> filtredPosts;
-//
-//        if(filter!=null && !filter.isEmpty()){
-//            filtredPosts = postsRepo.findByPostTag(filter);
-//        }
-//        else {
-//            filtredPosts = postsRepo.findAll();
-//        }
-//
-//        model.put("posts", filtredPosts);
-//        return "main";
-//    }
-
 }

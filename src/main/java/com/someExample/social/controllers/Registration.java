@@ -2,7 +2,7 @@ package com.someExample.social.controllers;
 
 
 import com.someExample.social.entities.User;
-import com.someExample.social.enums.Roles;
+import com.someExample.social.enums.Role;
 import com.someExample.social.reps.UserRepo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +37,7 @@ public class Registration {
         }
 
         user.setActive(true);
-        user.setRoles(Collections.singleton(Roles.USER));
+        user.setRoles(Collections.singleton(Role.USER));
         userRepo.save(user);
 
         return "redirect:/login";
