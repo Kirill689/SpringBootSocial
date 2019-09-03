@@ -4,7 +4,7 @@
 <@e.page>
 
 REGISTRATION PAGE
-
+${MSG?ifExists}
 <@l.login "/registration" />
 
 </@e.page>

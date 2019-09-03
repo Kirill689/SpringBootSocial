@@ -12,6 +12,7 @@ public class Post {
 
     private String postText;
     private String postTag;
+    private String filename;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -63,5 +64,13 @@ public class Post {
 
     public void setPostTag(String title) {
         this.postTag = title;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 }

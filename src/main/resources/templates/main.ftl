@@ -10,9 +10,10 @@
         </div>
 
         <div>
-            <form method="post">
+            <form method="post" enctype="multipart/form-data">
                 <input type="text" name="postText" placeholder="Write some post">
                 <input type="text" name="postTag" placeholder="Post tag">
+                <input type="file" name="file">
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
                 <button type="submit">POST</button>
             </form>
@@ -35,6 +36,11 @@
             <b>${post.postText}</b>
             <i>${post.postTag}</i>
             <strong>${post.authorName}</strong>
+            <div>
+                <#if post.filename?exists>
+                <img src="/img/${post.filename}">
+                </#if>
+            </div>
 
         </div>
         <#else>
