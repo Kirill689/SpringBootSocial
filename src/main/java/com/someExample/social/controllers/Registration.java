@@ -2,22 +2,22 @@ package com.someExample.social.controllers;
 
 
 import com.someExample.social.entities.User;
-import com.someExample.social.enums.Role;
-import com.someExample.social.reps.UserRepo;
+import com.someExample.social.services.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.Collections;
 import java.util.Map;
 
 @Controller
 public class Registration {
 
-    private UserRepo userRepo;
 
-    public Registration(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    private UserService userService;
+
+    public Registration(UserService userService){
+        this.userService = userService;
     }
 
     @GetMapping("/registration")
@@ -29,18 +29,27 @@ public class Registration {
     @PostMapping("/registration")
     public String addUser(Map<String, Object> model, User user){
 
-        User newUser = userRepo.findByUsername(user.getUsername());
-
-        if (newUser!=null){
+        if (!userService.addUser(user)){
             model.put("MSG", "User already exists");
             return "registration";
         }
 
-        user.setActive(true);
-        user.setRoles(Collections.singleton(Role.USER));
-        userRepo.save(user);
-
         return "redirect:/login";
+    }
+
+    @GetMapping("/activate/{code}")
+    public String activate(Map<String, Object> model, @PathVariable String code){
+
+        boolean isActivated = userService.activateUser(code);
+
+        if(isActivated){
+            model.put("MSG", "User account is active now");
+        }
+        else {
+            model.put("MSG", "User activation error");
+        }
+
+        return "login";
     }
 
 }
