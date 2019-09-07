@@ -3,8 +3,8 @@
 
 <@e.page>
 
-REGISTRATION PAGE
+<div class="mb-3">REGISTRATION PAGE</div>
 ${MSG?ifExists}
-<@l.login "/registration" />
+<@l.login "/registration" true/>
 
 </@e.page>

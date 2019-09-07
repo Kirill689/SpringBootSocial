@@ -1,6 +1,6 @@
 <#import "components/common.ftl" as e>
 
 <@e.page>
-<div>Hello, user</div>
-<a href="/main">-To Main Page-</a>
+<h5>Hello, guest</h5>
+<div>This is a simple example of social app</div>
 </@e.page>

@@ -1,50 +1,75 @@
 <#import "components/common.ftl" as e>
-<#import "components/login.ftl" as l>
 
 <@e.page>
 
-
-        <div>
-            <@l.logout />
-            <span><a href="/user"> Users List </a></span>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <form method="get" action="/main" class="form-inline">
+                    <input type="text" name="filter" class="form-control" value="${filter?ifExists}" placeholder="Filter Posts By Tag">
+                    <button type="submit" class="btn btn-primary ml-3">FILTER</button>
+                </form>
+            </div>
         </div>
 
-        <div>
-            <form method="post" enctype="multipart/form-data">
-                <input type="text" name="postText" placeholder="Write some post">
-                <input type="text" name="postTag" placeholder="Post tag">
-                <input type="file" name="file">
+        <a class="btn btn-primary mb-2" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Post Something On Wall
+        </a>
+
+        <div class="collapse" id="collapseExample">
+        <div class="form-group mt-3">
+            <form method="post" enctype="multipart/form-data" class="form-inline">
+
+                <div class="form-group">
+                <input class="form-control" type="text" name="postText" placeholder="Write some post">
+                </div>
+                <div class="form-group">
+                <input class="form-control" type="text" name="postTag" placeholder="Post tag">
+                </div>
+
+                <div class="form-group">
+                <div class="custom-file">
+                    <input type="file" name="file" class="custom-file-input" id="customFile">
+                    <label class="custom-file-label" for="customFile">Choose file</label>
+                </div>
+                </div>
+
                 <input type="hidden" name="_csrf" value="${_csrf.token}"/>
-                <button type="submit">POST</button>
+
+                <div class="form-group">
+                <button class="btn btn-primary" type="submit">POST</button>
+                </div>
+
             </form>
+        </div>
         </div>
 
 
 <div>POSTS</div>
 
-        <div>
-            <form method="get" action="/main">
-                <input type="text" name="filter">
-                <button>FILTER POSTS</button>
-            </form>
-        </div>
 
+    <div class="card-columns">
         <#list posts as post>
-        <div>
+        <div class="card my-2">
 
-            <b>${post.id}</b>
+            <#if post.filename?exists>
+                <img src="/img/${post.filename}" class="card-img-top">
+            </#if>
+
+            <div class="m-2">
             <b>${post.postText}</b>
             <i>${post.postTag}</i>
-            <strong>${post.authorName}</strong>
-            <div>
-                <#if post.filename?exists>
-                <img src="/img/${post.filename}">
-                </#if>
+            </div>
+
+            <div class="card-footer text-muted">
+            ${post.authorName}
             </div>
 
         </div>
         <#else>
-            No Posts
+
+            No Posts Available
+
         </#list>
+    </div>
 
 </@e.page>

@@ -65,7 +65,7 @@ public class MainController {
 
         Post post = new Post(postText, postTag, user);
 
-        if(file!=null){
+        if(file!=null && !file.getOriginalFilename().isEmpty()){
 
             File upload = new File(uploadPath);
 
