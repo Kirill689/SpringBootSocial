@@ -49,7 +49,7 @@ public class Registration {
             model.put("MSG", "User activation error");
         }
 
-        return "login";
+        return "redirect:/login";
     }
 
 }
