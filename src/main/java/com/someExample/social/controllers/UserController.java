@@ -2,39 +2,37 @@ package com.someExample.social.controllers;
 
 import com.someExample.social.entities.User;
 import com.someExample.social.enums.Role;
-import com.someExample.social.reps.UserRepo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.someExample.social.services.UserService;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("user")
-@PreAuthorize("hasAuthority('ADMIN')")
+@RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserRepo userRepo;
 
-    public UserController(UserRepo userRepo) {
-        this.userRepo = userRepo;
+    private UserService userService;
+
+    public UserController(UserService userService){
+        this.userService = userService;
     }
 
 
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping
     public String users(Map<String, Object> model){
 
-        model.put("allUsers", userRepo.findAll());
+        model.put("allUsers", userService.findAll());
         return "usersList";
     }
 
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("{user}")
     public String editUser(@PathVariable User user, Map<String, Object> model){
 
@@ -44,27 +42,37 @@ public class UserController {
     }
 
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
     public String updateUser(
             @RequestParam Map<String,  String> form,
             @RequestParam String username,
             @RequestParam("userId") User user){
 
-        user.setUsername(username);
-
-        Set<String> roles = Arrays.stream(Role.values()).map(Role::name).collect(Collectors.toSet());
-
-        user.getRoles().clear();
-
-        for (String key : form.keySet()){
-            if (roles.contains(key)){
-                user.getRoles().add(Role.valueOf(key));
-            }
-        }
-
-        userRepo.save(user);
+        userService.saveUser(user, username, form);
         return "redirect:/user";
     }
+
+
+    @GetMapping("/profile")
+    public String getProfile(Map<String, Object> model, @AuthenticationPrincipal User user){
+
+        model.put("username", user.getUsername());
+        model.put("email", user.getEmail());
+
+        return "profile";
+    }
+
+
+
+    @PostMapping("/profile")
+    public String updateProfile(@AuthenticationPrincipal User user, @RequestParam String email, @RequestParam String password){
+
+        userService.updateProfile(user, email, password);
+
+        return "redirect:/user/profile";
+    }
+
 
 
 }
