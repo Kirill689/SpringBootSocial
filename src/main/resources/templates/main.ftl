@@ -15,15 +15,27 @@
             Post Something On Wall
         </a>
 
-        <div class="collapse" id="collapseExample">
-        <div class="form-group mt-3">
-            <form method="post" enctype="multipart/form-data" class="form-inline">
+        <div class="collapse <#if post??>show</#if>" id="collapseExample">
+        <div class="form-group">
+            <form method="post" enctype="multipart/form-data">
 
                 <div class="form-group">
-                <input class="form-control" type="text" name="postText" placeholder="Write some post">
+                <input class="form-control ${(postTextError??)?string('is-invalid', '')}" type="text" name="postText" placeholder="Write some post" value="<#if post??>${post.postText}</#if>">
+                    <#if postTextError??>
+                    <span class="invalid-feedback">
+                        ${postTextError}
+                    </span>
+                    </#if>
                 </div>
+
+
                 <div class="form-group">
-                <input class="form-control" type="text" name="postTag" placeholder="Post tag">
+                <input class="form-control ${(postTagError??)?string('is-invalid', '')}" type="text" name="postTag" placeholder="Post tag" value="<#if post??>${post.postTag}</#if>">
+                    <#if postTagError??>
+                    <span class="invalid-feedback">
+                        ${postTagError}
+                    </span>
+                    </#if>
                 </div>
 
                 <div class="form-group">

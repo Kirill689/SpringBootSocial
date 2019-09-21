@@ -7,11 +7,13 @@ import com.someExample.social.reps.PostsRepo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
@@ -57,36 +59,51 @@ public class MainController {
 
 
     @PostMapping("/main")
-    public String makeSomePost(Map<String, Object> model,
-                               @RequestParam String postText,
-                               @RequestParam String postTag,
-                               @AuthenticationPrincipal User user,
+    public String makeSomePost(@AuthenticationPrincipal User user,
+                               @Valid Post post,
+                               BindingResult bindingResult,
+                               Map<String, Object> model,
                                @RequestParam (required=false, defaultValue = "" ) MultipartFile file) throws IOException {
 
-        Post post = new Post(postText, postTag, user);
+        post.setAuthor(user);
 
-        if(file!=null && !file.getOriginalFilename().isEmpty()){
+        if(bindingResult.hasErrors()){
 
-            File upload = new File(uploadPath);
+            Map<String, String> errorsList = ControllersUtil.getErrorsList(bindingResult);
 
-            if (!upload.exists()){
-                upload.mkdir();
+
+            model.putAll(errorsList);
+            model.put("post", post);
+
+        }
+        else {
+            if (file != null && !file.getOriginalFilename().isEmpty()) {
+
+                File upload = new File(uploadPath);
+
+                if (!upload.exists()) {
+                    upload.mkdir();
+                }
+
+                String uuidFile = UUID.randomUUID().toString();
+                String filename = uuidFile + "." + file.getOriginalFilename();
+
+                file.transferTo(new File(uploadPath + "/" + filename));
+
+                post.setFilename(filename);
             }
 
-            String uuidFile = UUID.randomUUID().toString();
-            String filename = uuidFile + "." + file.getOriginalFilename();
-
-            file.transferTo(new File(uploadPath  + "/" + filename));
-
-            post.setFilename(filename);
+            model.put("post", null);
+            postsRepo.save(post);
         }
 
-        postsRepo.save(post);
 
         Iterable<Post> allPosts = postsRepo.findAll();
         model.put("posts", allPosts);
         return "main";
     }
+
+
 
 
 }

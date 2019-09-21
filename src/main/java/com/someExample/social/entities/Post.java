@@ -1,7 +1,10 @@
 package com.someExample.social.entities;
 
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Post {
@@ -10,7 +13,10 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message = "Write something")
+    @Length(max = 2000,message = "Post is too long")
     private String postText;
+    @Length(max = 20,message = "Tag is too long")
     private String postTag;
     private String filename;
 
