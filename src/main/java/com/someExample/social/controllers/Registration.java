@@ -31,9 +31,9 @@ public class Registration {
     @PostMapping("/registration")
     public String addUser(@Valid User user, BindingResult bindingResult , Map<String, Object> model){
 
-        if(user.getPassword()!= null && !user.getPassword().equals(user.getPasswordConfirm())){
-            model.put("passwordError", "Wrong password confirmation");
-        }
+//        if(user.getPassword()!= null && !user.getPassword().equals(user.getPasswordConfirm())){
+//            model.put("passwordError", "Wrong password confirmation");
+//        }
 
         if(bindingResult.hasErrors()){
             Map<String, String> errorsList = ControllersUtil.getErrorsList(bindingResult);
