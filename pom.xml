@@ -64,7 +64,6 @@
             <artifactId>flyway-core</artifactId>
         </dependency>
 
-
         <!--Security-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

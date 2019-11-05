@@ -31,10 +31,6 @@ public class Registration {
     @PostMapping("/registration")
     public String addUser(@Valid User user, BindingResult bindingResult , Map<String, Object> model){
 
-//        if(user.getPassword()!= null && !user.getPassword().equals(user.getPasswordConfirm())){
-//            model.put("passwordError", "Wrong password confirmation");
-//        }
-
         if(bindingResult.hasErrors()){
             Map<String, String> errorsList = ControllersUtil.getErrorsList(bindingResult);
             model.putAll(errorsList);
@@ -55,11 +51,15 @@ public class Registration {
 
         boolean isActivated = userService.activateUser(code);
 
+        System.out.println(isActivated);
+
         if(isActivated){
-            model.put("MSG", "User account is active now");
+            model.put("messageType", "success");
+            model.put("message", "User account is active now");
         }
         else {
-            model.put("MSG", "User activation error");
+            model.put("messageType", "danger");
+            model.put("message", "User activation error");
         }
 
         return "redirect:/login";
